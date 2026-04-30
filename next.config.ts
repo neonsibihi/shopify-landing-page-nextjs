@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  // Add trailing slash for GitHub Pages compatibility
-  trailingSlash: true,
+  // Remove export output for Vercel compatibility - Vercel handles Next.js natively
+  // output: 'export',
   images: {
     unoptimized: true,
   },
