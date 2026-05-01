@@ -2,8 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Merchant Authority - Launch Your Professional Shopify Store in 48 Hours',
-  description: 'Expert Shopify store setup service - Get your professional store launched in 48 hours',
+  title: 'BuildWithNeon - Launch Your Professional Shopify Store in 48 Hours',
+  description: 'Expert Shopstore setup service - Get your professional store launched in 48 hours',
 };
 
 export default function RootLayout({
@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="light">
+    <html lang="en">
       <body className="bg-background text-on-background font-body-md antialiased">
         {/* Google Fonts */}
         <link 

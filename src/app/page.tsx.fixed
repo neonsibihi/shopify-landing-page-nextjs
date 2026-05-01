@@ -1,57 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-
-// Theme Toggle Component
-const ThemeToggle = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  useEffect(() => {
-    // Check for saved theme preference or use system preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      setIsDarkMode(true);
-      document.documentElement.classList.add('dark');
-    } else if (savedTheme === 'light') {
-      setIsDarkMode(false);
-      document.documentElement.classList.remove('dark');
-    } else {
-      // No saved preference, check system preference
-      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setIsDarkMode(systemPrefersDark);
-      if (systemPrefersDark) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-    if (isDarkMode) {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    } else {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    }
-  };
-
-  return (
-    <button 
-      onClick={toggleTheme}
-      className="flex items-center gap-2 p-2 rounded-full bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-300"
-      aria-label="Toggle dark/light mode"
-    >
-      {isDarkMode ? (
-        <span className="material-symbols-outlined text-white" style={{ fontVariationSettings: "'FILL' 1" }}>wb_sunny</span>
-      ) : (
-        <span className="material-symbols-outlined text-gray-800 dark:text-white" style={{ fontVariationSettings: "'FILL' 1" }}>dark_mode</span>
-      )}
-    </button>
-  );
-};
+import { useState } from 'react';
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -76,18 +25,11 @@ export default function Home() {
   return (
     <>
       {/* TopAppBar (Modified for Zero-Nav Landing Page per prompt, hiding search and nav, centering logo if needed, but keeping it simple) */}
-      <header className="bg-white/95 dark:bg-slate-900/90 backdrop-blur-md fixed top-0 w-full z-50 border-b border-gray-100 dark:border-gray-700 shadow-[0px_10px_30px_rgba(0,0,0,0.04)] h-20">
-        <div className="flex items-center justify-between h-20 px-8 max-w-[1280px] mx-auto w-full">
-          {/* Logo - Changed to BuildWithNeon */}
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#FF7A00] text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>work</span>
-            <span className="font-headline-md text-headline-md text-[#004B3E] uppercase tracking-tighter dark:text-white">
-              BuildWithNeon
-            </span>
-          </div>
-          
-          {/* Dark/Light Mode Toggle */}
-          <ThemeToggle />
+      <header className="bg-white/95 dark:bg-slate-950/95 backdrop-blur-md fixed top-0 w-full z-50 border-b border-gray-100 dark:border-gray-800 shadow-[0px_10px_30px_rgba(0,0,0,0.04)] h-20">
+        <div className="flex items-center justify-center h-20 px-8 max-w-[1280px] mx-auto w-full">
+          <span className="font-headline-md text-headline-md text-[#004B3E] uppercase tracking-tighter">
+            Merchant Authority
+          </span>
         </div>
       </header>
       <main className="pt-20">
@@ -249,11 +191,11 @@ export default function Home() {
             >
               <div className="flex flex-col gap-[8px]">
                 <label className="font-label-caps text-[14px] text-primary leading-[1.2] tracking-[0.05em] font-[600]">
-                  Store Name
+                  What's your store name? (or idea)
                 </label>
                 <input
                   className="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-[0.25rem] focus:outline-none focus:border-[#004B3E] focus:ring-1 focus:ring-[#004B3E] font-body-md text-[16px] text-on-surface transition-colors duration-200"
-                  placeholder="My Shopify Store"
+                  placeholder="e.g., The Cozy Corner"
                   type="text"
                   value={formData.storeName}
                   onChange={(e) => setFormData({ ...formData, storeName: e.target.value })}
@@ -263,7 +205,7 @@ export default function Home() {
               
               <div className="flex flex-col gap-[8px]">
                 <label className="font-label-caps text-[14px] text-primary leading-[1.2] tracking-[0.05em] font-[600]">
-                  Store Niche
+                  What niche are you in?
                 </label>
                 <select
                   className="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-[0.25rem] focus:outline-none focus:border-[#004B3E] focus:ring-1 focus:ring-[#004B3E] font-body-md text-[16px] text-on-surface transition-colors duration-200"
@@ -272,78 +214,75 @@ export default function Home() {
                   required
                 >
                   <option value="">Select your niche</option>
-                  <option value="fashion">Fashion & Apparel</option>
-                  <option value="beauty">Beauty & Cosmetics</option>
-                  <option value="electronics">Electronics & Gadgets</option>
-                  <option value="home">Home & Living</option>
-                  <option value="fitness">Fitness & Wellness</option>
-                  <option value="food">Food & Beverages</option>
-                  <option value="jewelry">Jewelry & Accessories</option>
-                  <option value="pet">Pet Supplies</option>
-                  <option value="toys">Toys & Games</option>
-                  <option value="other">Other</option>
+                  <option value="Fashion & Apparel">Fashion & Apparel</option>
+                  <option value="Home & Garden">Home & Garden</option>
+                  <option value="Health & Beauty">Health & Beauty</option>
+                  <option value="Electronics">Electronics</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
               
-              <div className="flex flex-col gap-[8px]">
-                <label className="font-label-caps text-[14px] text-primary leading-[1.2] tracking-[0.05em] font-[600]">
-                  Your Name
-                </label>
-                <input
-                  className="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-[0.25rem] focus:outline-none focus:border-[#004B3E] focus:ring-1 focus:ring-[#004B3E] font-body-md text-[16px] text-on-surface transition-colors duration-200"
-                  placeholder="Jane Doe"
-                  type="text"
-                  value={formData.yourName}
-                  onChange={(e) => setFormData({ ...formData, yourName: e.target.value })}
-                  required
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px]">
+                <div className="flex flex-col gap-[8px]">
+                  <label className="font-label-caps text-[14px] text-primary leading-[1.2] tracking-[0.05em] font-[600]">
+                    Your Name
+                  </label>
+                  <input
+                    className="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-[0.25rem] focus:outline-none focus:border-[#004B3E] focus:ring-1 focus:ring-[#004B3E] font-body-md text-[16px] text-on-surface transition-colors duration-200"
+                    placeholder="Jane Doe"
+                    type="text"
+                    value={formData.yourName}
+                    onChange={(e) => setFormData({ ...formData, yourName: e.target.value })}
+                    required
+                  />
+                </div>
+                
+                <div className="flex flex-col gap-[8px]">
+                  <label className="font-label-caps text-[14px] text-primary leading-[1.2] tracking-[0.05em] font-[600]">
+                    Email Address
+                  </label>
+                  <input
+                    className="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-[0.25rem] focus:outline-none focus:border-[#004B3E] focus:ring-1 focus:ring-[#004B3E] font-body-md text-[16px] text-on-surface transition-colors duration-200"
+                    placeholder="jane@example.com"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    required
+                  />
+                </div>
               </div>
               
-              <div className="flex flex-col gap-[8px]">
-                <label className="font-label-caps text-[14px] text-primary leading-[1.2] tracking-[0.05em] font-[600]">
-                  Email Address
-                </label>
-                <input
-                  className="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-[0.25rem] focus:outline-none focus:border-[#004B3E] focus:ring-1 focus:ring-[#004B3E] font-body-md text-[16px] text-on-surface transition-colors duration-200"
-                  placeholder="jane@example.com"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  required
-                />
-              </div>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full inline-flex items-center justify-center px-6 py-4 bg-[#FF7A00] text-white font-label-caps text-[14px] leading-[1.2] tracking-[0.05em] font-[600] rounded-[0.25rem] hover:bg-[#e66a00] transition-colors duration-300 shadow-[0px_10px_30px_rgba(0,0,0,0.04)]"
+              >
+                {isSubmitting ? 'Processing...' : 'Complete Request'}
+              </button>
+              
+              {submitSuccess ? (
+                <>
+                  <p className="text-center font-body-md text-[12px] text-on-surface-variant mt-[8px]">
+                    Thank you! We'll be in touch within 24 hours to start building your Shopify store.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-center font-body-md text-[12px] text-on-surface-variant mt-[8px]">
+                    By submitting, you agree to our terms.
+                  </p>
+                </>
+              )}
             </form>
-            
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full inline-flex items-center justify-center px-6 py-4 bg-[#FF7A00] text-white font-label-caps text-[14px] leading-[1.2] tracking-[0.05em] font-[600] rounded-[0.25rem] hover:bg-[#e66a00] transition-colors duration-300 shadow-[0px_10px_30px_rgba(0,0,0,0.04)]"
-            >
-              {isSubmitting ? 'Processing...' : 'Complete Request'}
-            </button>
-            
-            {submitSuccess ? (
-              <>
-                <p className="text-center font-body-md text-[12px] text-on-surface-variant mt-[8px]">
-                  Thank you! We'll be in touch within 24 hours to start building your Shopify store.
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="text-center font-body-md text-[12px] text-on-surface-variant mt-[8px]">
-                  By submitting, you agree to our terms.
-                </p>
-              </>
-            )}
           </div>
         </section>
       </main>
       
       {/* Footer */}
-      <footer className="bg-white dark:bg-slate-900 w-full py-[16px] border-t border-slate-100 dark:border-slate-800">
+      <footer className="bg-white dark:bg-slate-950 w-full py-[16px] border-t border-slate-100 dark:border-slate-800">
         <div className="max-w-[1280px] mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-[24px]">
           <span className="text-xl font-bold text-[#004B3E] dark:text-white">
-            BuildWithNeon
+            Merchant Authority
           </span>
           <nav className="flex gap-[24px]">
             <a 
@@ -366,7 +305,7 @@ export default function Home() {
             </a>
           </nav>
           <span className="font-manrope text-sm leading-relaxed text-[#004B3E] dark:text-emerald-400">
-            © 2024 BuildWithNeon. The Expert Shopify Partner.
+            © 2024 Merchant Authority. The Expert Shopify Partner.
           </span>
         </div>
       </footer>
